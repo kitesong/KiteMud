@@ -1,43 +1,81 @@
 import random
 from time import sleep
-
-
-class honor:
-    name = "英雄xxxx"
-    Deng= 1
-    Shengming = 100
-    gongji = 2
-
-gName = "土狼"
-gDengji = 1
-gGongji = 1
-gShengming = 10
+from KiteMun_opt import *
 
 print("欢迎进入武侠世界！！！！！")
 print("正在加载中..............")
 sleep(1)
-print("-------创建人物--------")
 name = input("请输入名称：")
-print(name+"欢迎您加入游戏")
-print("您的等级："+str(Dengji))
-print("您的生命值："+str(Shengming))
-print("1.出发，2.等待")
-go = input("请选择:")
-if go == "1":
-    gon=1
-else:
-    print("日月更替，一切随风而去")
-    exit()
-print("向前走去。。。。")
-print("哈哈哈！！！正饿呢，来了一个吃的！！！")
-print("你遇到一个怪物：土狼1只")
-print("决定命运：1.战斗 2.逃跑")
-go = input("请选择")
-if go == "1":
-    print("你杀死了"+gName)
-else:
-    print("你被%s杀死了", gName)
-sleep(2)
-print("游戏结束了！！！！")
+print("-------创建人物--------")
+sleep(1)
+h1 = Hero()
+h1.name = name
+print(name + "欢迎您加入游戏")
+h1.showAll()
 
+while 1 < 2:
+    s1 = selectopt()
 
+    if s1 == 1:
+        go1 = random.randint(1, 5)
+    elif s1 == 2:
+        go1 = random.randint(1, 3)
+    elif s1 == 3:
+        go1 = random.randint(1, 5)
+    else:
+        go1 = 0
+
+    if go1 == 0:
+        print(h1.name + "打坐休息...")
+        sleep(2)
+        print(h1.name + "恢复生命值5")
+
+        h1.showAll()
+    else:
+        gw1 = Monster()
+        gw1.setGrade(s1)
+        print(h1.name + "移动了10步")
+        print("发现一个怪物" + gw1.name)
+        gw1.showAll()
+        print("-----------------------")
+        print("决定命运：1.战斗 2.逃跑")
+        go = input("请选择")
+        if go == "1":
+            while (h1.vVitality > 0) and (gw1.vVitality > 0):
+                print(gw1.name + "向你发起攻击..")
+                h1.vVitality = h1.vVitality - gw1.vHurt
+                print(h1.name+"生命力减"+str(gw1.vHurt))
+                h1.showAll()
+                print("-----------------------")
+                sleep(1)
+                opt2 = input("请选择：1攻击；2 逃跑")
+                print("-----------------------")
+                if opt2 == "1":
+                    print(h1.name+"向"+gw1.name+"打出一拳")
+                    print("一下命中"+gw1.name)
+                    print(gw1.name+"生命值减"+str(h1.vHurt))
+                    gw1.vVitality = gw1.vVitality - h1.vHurt
+                    print("-----------------------")
+                    gw1.showAll()
+                    sleep(1)
+                    print("-----------------------")
+                else:
+                    print(gw1.name + "向你发起攻击..")
+                    h1.vVitality = h1.vVitality - gw1.vHurt
+                    print(h1.name + "生命力减" + str(gw1.vHurt))
+                    h1.showAll()
+                    print("-----------------------")
+                    sleep(1)
+
+                    break
+            if gw1.vVitality == 0:
+                print(h1.name+"杀死了一只"+gw1.name)
+                print(h1.name+"等级加1")
+                h1.addGrden()
+                h1.showAll()
+            if h1.vVitality == 0:
+                print(h1.name+"被"+gw1.name+"杀死了！")
+                exit()
+
+        else:
+            sleep(2)
